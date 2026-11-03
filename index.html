@@ -70,40 +70,7 @@
                     <h2 class="h4 mb-4">Products list</h2>
                     <p>Count: <span id="product-count">0</span></p>
                 </div>
-                <ul id="product-list" class="row list-unstyled g-3">
-                    <li class="col-4">
-                        <div class="card">
-                            <img src="https://picsum.photos/300/200" alt="" class="card-img-top">
-                            <div class="card-body">
-                                <h3 class="card-title">Gadget title</h3>
-                                <p class="text fw-bocardld">
-                                    <mark>2.000.000</mark>
-                                </p>
-                                <p class="card-text">
-                                    <s>2.000.000</s>
-                                </p>
-                                <p class="badge bg-success">Xiaomi (gadget firmasi)</p>
-                                <p class="card-text">12.05.2022</p>
-
-                                <ul class="d-flex flex-wrap list-unstyled">
-                                    <li class="badge bg-primary me-1 mb-1">8gb</li>
-                                    <li class="badge bg-primary me-1 mb-1">128gb</li>
-                                    <li class="badge bg-primary me-1 mb-1">Waterproof</li>
-                                    <li class="badge bg-primary me-1 mb-1">Falon yaxshi tarafi</li>
-                                </ul>
-
-                                <div class="position-absolute top-0 end-0 d-flex">
-                                    <button class="btn rounded-0 btn-secondary">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn rounded-0 btn-danger">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <ul id="product-list" class="row list-unstyled g-3"></ul>
             </section>
         </div>
     </div>
@@ -161,7 +128,24 @@
             </div>
         </div>
     </div>
-    <ul></ul>
+    <template id="product-template">
+        <li class="col-12 col-xl-6">
+            <div class="card position-relative">
+                <img class="card-img-top" data-image alt="">
+                <div class="card-body">
+                    <h3 class="card-title" data-title></h3>
+                    <p class="card-text fw-bold" data-price></p>
+                    <p class="badge bg-success" data-model></p>
+                    <p class="card-text" data-date></p>
+                    <ul class="d-flex flex-wrap list-unstyled" data-benefits></ul>
+                    <div class="position-absolute top-0 end-0 d-flex">
+                        <button type="button" class="btn btn-secondary" data-edit><i class="fa-solid fa-pen"></i></button>
+                        <button type="button" class="btn btn-danger" data-delete><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </template>
 
     <script src="js/bootstrap.bundle.min.js"></script>
 

@@ -2,36 +2,27 @@ const productList = document.querySelector('#product-list');
 const manufacturerFilter = document.querySelector('#manufacturer');
 const addForm = document.querySelector('#modal-form');
 const modalElement = document.querySelector('#addProductModal');
-
-const createElement = function (tag, text, className) {
-    const element = document.createElement(tag);
-    element.textContent = text;
-    element.className = className;
-    return element;
-}
+const productTemplate = document.querySelector('#product-template');
 
 const renderItem = function (product) {
-    const item = createElement('li', '', 'col-12 col-xl-6');
-    const card = createElement('div', '', 'card position-relative');
-    const image = createElement('img', '', 'card-img-top');
+    const item = productTemplate.content.cloneNode(true);
+    const image = item.querySelector('[data-image]');
     image.src = product.img;
     image.alt = product.title;
-
-    const body = createElement('div', '', 'card-body');
-    const title = createElement('h3', product.title, 'card-title');
-    const price = createElement('p', Number(product.price).toLocaleString() + ' so‘m', 'card-text fw-bold');
-    const model = createElement('p', product.model, 'badge bg-success');
-    const date = createElement('p', new Date(product.addedDate).toLocaleDateString(), 'card-text');
-    const benefits = createElement('ul', '', 'd-flex flex-wrap list-unstyled');
+    item.querySelector('[data-title]').textContent = product.title;
+    item.querySelector('[data-price]').textContent = Number(product.price).toLocaleString() + ' so‘m';
+    item.querySelector('[data-model]').textContent = product.model;
+    item.querySelector('[data-date]').textContent = new Date(product.addedDate).toLocaleDateString();
+    const benefits = item.querySelector('[data-benefits]');
 
     for (let i = 0; i < product.benefits.length; i++) {
-        benefits.append(createElement('li', product.benefits[i], 'badge bg-primary me-1 mb-1'));
+        const benefit = document.createElement('li');
+        benefit.textContent = product.benefits[i];
+        benefit.className = 'badge bg-primary me-1 mb-1';
+        benefits.append(benefit);
     }
 
-    const buttons = createElement('div', '', 'position-absolute top-0 end-0 d-flex');
-    const editButton = createElement('button', '', 'btn btn-secondary');
-    editButton.type = 'button';
-    editButton.innerHTML = '<i class="fa-solid fa-pen"></i>';
+    const editButton = item.querySelector('[data-edit]');
     editButton.addEventListener('click', function () {
         addForm.dataset.id = product.id;
         addForm.elements['product-title'].value = product.title;
@@ -43,9 +34,7 @@ const renderItem = function (product) {
         bootstrap.Modal.getOrCreateInstance(modalElement).show();
     });
 
-    const deleteButton = createElement('button', '', 'btn btn-danger');
-    deleteButton.type = 'button';
-    deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>';
+    const deleteButton = item.querySelector('[data-delete]');
     deleteButton.addEventListener('click', function () {
         const index = products.findIndex(function (item) {
             return item.id === product.id;
@@ -54,10 +43,6 @@ const renderItem = function (product) {
         renderFilteredProducts();
     });
 
-    buttons.append(editButton, deleteButton);
-    body.append(title, price, model, date, benefits, buttons);
-    card.append(image, body);
-    item.append(card);
     return item;
 }
 
@@ -92,7 +77,8 @@ const renderFilteredProducts = function () {
 }
 
 for (let i = 0; i < manufacturers.length; i++) {
-    const option = createElement('option', manufacturers[i].name, '');
+    const option = document.createElement('option');
+    option.textContent = manufacturers[i].name;
     option.value = manufacturers[i].name;
     manufacturerFilter.append(option);
     addForm.elements['product-manufacturer'].append(option.cloneNode(true));
